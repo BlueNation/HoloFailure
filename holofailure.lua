@@ -2,11 +2,11 @@
 --Layer 1 {OK, Fault, Crit} Layer 2 {hex,hex,hex}
 
 local function iDup(tab)--iterable TABLE DUPLICATOR
-	local t={}
-	for k,v in ipairs(tab) do
-		t[k]=v
-	end
-	return t
+    local t={}
+    for k,v in ipairs(tab) do
+        t[k]=v
+    end
+    return t
 end
 
 meta={}--main meta table holding obj definitions
