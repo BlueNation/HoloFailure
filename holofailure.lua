@@ -24,7 +24,7 @@ local holo = component.hologram
 holo.clear()
 --Define 3D frame
 
-local frame, mFrame = {}, {}
+local frame, mFrame = {{{"/0"}}}, {}
 local mFrame.__index=function() return "\0" end
 setmetatable(frame,mFrame)
 
@@ -32,8 +32,3 @@ setmetatable(frame,mFrame)
 
 
 holo.setRaw(EZCONCAT(frame))
-
-
-function MyFunction(Str)
-
-end
