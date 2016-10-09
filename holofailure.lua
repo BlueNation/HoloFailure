@@ -1,5 +1,5 @@
 --Variables and functions
---Layer 1 {OK, Fault, Crit} Layer 2 {A,B,C} Layer 3 {Red 0-255, Green 0-255, Blue 0-255,}
+--Layer 1 {OK, Fault, Crit} Layer 2 {hex,hex,hex}
 
 local colours = {--HSV 30deg shifr iirc
     {0x000040,0x000080,0x0000ff},
@@ -23,23 +23,29 @@ local keyboard =  require("keyboard")
 local holo = component.hologram
 holo.clear()
 
-for i=1,3 do
-    holo.setPaletteColor(i, colours[2][i])
-end
+local rPallet, oPallet = 1, 1
+
+while true do
+
+    while rPallet = oPallet do rPallet = math.random(3) end oPallet = rPallet
+
+    for i=1,3 do
+        holo.setPaletteColor(i, colours[rPallet][i])
+    end
+
 --Define 3D frame
 
-local tFrame, mFrame = {}, {}
-mFrame.__index=function() return tostring(math.random(0,3)) end--dont init the mFrame again... using the local keyword
+    local tFrame, mFrame = {}, {}
+    mFrame.__index=function() return tostring(math.random(0,3)) end--dont init the mFrame again... using the local keyword
 
-for i = 1,48 do
-    tFrame[i]={}
-    for j = 1,32 do
-        tFrame[i][j]={}
-        setmetatable(tFrame[i][j],mFrame)
+    for i = 1,48 do
+        tFrame[i]={}
+        for j = 1,32 do
+            tFrame[i][j]={}
+            setmetatable(tFrame[i][j],mFrame)
+        end
     end
+
+    holo.setRaw(EZCONCAT(tFrame))
+    os.sleep(5)
 end
-
-
-
-
-holo.setRaw(EZCONCAT(tFrame))
