@@ -1,17 +1,18 @@
 --Variables and functions
 --Layer 1 {OK, Fault, Crit} Layer 2 {A,B,C} Layer 3 {Red 0-255, Green 0-255, Blue 0-255,}
+local xMax,yMax,zMax=10,10,10--size goes here
 
-local colours = {
-    {{0,0,255},{0,0,255},{0,0,255}},
-    {{0,0,255},{0,0,255},{0,0,255}}, 
-    {{0,0,255},{0,0,255},{0,0,255}}} 
+local colours = {--HSV 30deg shifr iirc
+	{{  0,  0, 64},{  0,  0,128},{  0,  0,255}},
+	{{  0, 16, 64},{  0, 32,128},{  0, 64,255}}, 
+	{{  0, 32, 64},{  0, 64,128},{  0,128,255}}} 
 
 function EZCONCAT(tab)
     local txt--=""
     for i=1,xMax do
         for j=1,yMax do
             for k=1,zMax do
-                txt..tab[i][j][k]
+				pcall(function() txt=txt..tab[i][j][k] end)
     end end end
     return txt
 end
@@ -24,11 +25,11 @@ local holo = component.hologram
 holo.clear()
 --Define 3D frame
 
-local frame, mFrame = {{{"/0"}}}, {}
-local mFrame.__index=function() return "\0" end
-setmetatable(frame,mFrame)
+local tFrame, mFrame = {}, {}
+mFrame.__index=function() return "\0" end--dont init the mFrame again... using the local keyword
+setmetatable(tFrame,mFrame)
 
 
 
 
-holo.setRaw(EZCONCAT(frame))
+holo.setRaw(EZCONCAT(tFrame))
