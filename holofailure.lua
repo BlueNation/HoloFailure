@@ -139,6 +139,7 @@ local component = require("component")
 local keyboard =  require("keyboard")
 local holo = component.hologram
 holo.clear()
+holo.setScale(.3)
 
 local rPallet = 1
 
