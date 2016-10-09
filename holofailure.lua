@@ -27,7 +27,12 @@ holo.clear()
 
 local tFrame, mFrame = {}, {}
 mFrame.__index=function() return "\0" end--dont init the mFrame again... using the local keyword
-setmetatable(tFrame,mFrame)
+
+for i = 1,48 do
+	for j = 1,32 do
+		setmetatable(tFrame[i][j],mFrame)
+	end
+end
 
 
 
