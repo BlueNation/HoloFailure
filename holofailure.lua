@@ -1,6 +1,5 @@
 --Variables and functions
 --Layer 1 {OK, Fault, Crit} Layer 2 {A,B,C} Layer 3 {Red 0-255, Green 0-255, Blue 0-255,}
-local xMax,yMax,zMax=10,10,10--size goes here
 
 local colours = {--HSV 30deg shifr iirc
 	{{  0,  0, 64},{  0,  0,128},{  0,  0,255}},
@@ -9,10 +8,10 @@ local colours = {--HSV 30deg shifr iirc
 
 function EZMEMECONCAT(tab)
     local txt=""
-    for i=1,xMax do
-        for j=1,yMax do
-            for k=1,zMax do
-				pcall(function() txt=txt..tab[i][j][k] end)
+    for i=1,48 do
+        for j=1,32 do
+            for k=1,48 do
+				txt=txt..tab[i][j][k]
     end end end
     return txt
 end
@@ -29,7 +28,9 @@ local tFrame, mFrame = {}, {}
 mFrame.__index=function() return "\0" end--dont init the mFrame again... using the local keyword
 
 for i = 1,48 do
+    tFrame[i]={}
 	for j = 1,32 do
+		tFrame[i][j]={}
 		setmetatable(tFrame[i][j],mFrame)
 	end
 end
