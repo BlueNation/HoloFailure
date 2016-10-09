@@ -2,9 +2,9 @@
 --Layer 1 {OK, Fault, Crit} Layer 2 {A,B,C} Layer 3 {Red 0-255, Green 0-255, Blue 0-255,}
 
 local colours = {--HSV 30deg shifr iirc
-    {{  0,  0, 64},{  0,  0,128},{  0,  0,255}},
-    {{  0, 16, 64},{  0, 32,128},{  0, 64,255}}, 
-    {{  0, 32, 64},{  0, 64,128},{  0,128,255}}} 
+    {0x000040,0x000080,0x0000ff},
+    {0x001040,0x002080,0x0040ff}, 
+    {0x002040,0x004080,0x0080ff}} 
 
 function EZCONCAT(tab)
     local txt=""
@@ -22,6 +22,10 @@ local component = require("component")
 local keyboard =  require("keyboard")
 local holo = component.hologram
 holo.clear()
+
+for i=1,3 do
+    holo.setPaletteColor(i, colours[2][i])
+end
 --Define 3D frame
 
 local tFrame, mFrame = {}, {}
