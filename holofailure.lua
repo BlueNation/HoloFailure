@@ -29,12 +29,12 @@ do
                 return false
             end
         end
-        self.machines[#self.machines+1]=iDup(mMachine)--yeah new instance of the machine table
+        self.machines[#self.machines+1]=mMachine--yeah put the machine there
         return true
     end
     
     function meta.machineArray:del(mMachine)
-        for i=#self.machines,1 do
+        for i=#self.machines,1,-1 do
             if      self.machines[i].posX==mMachine.posX and --can align if similar
                     self.machines[i].posY==mMachine.posY and --double indent when doing long conditionals plz
                     self.machines[i].posZ==mMachine.posZ then
@@ -47,7 +47,7 @@ do
     end
     
     function meta.machineArray:update(mFrame)
-        for i=#self.machines,1 do
+        for i=#self.machines,1,-1 do
             if self.machines[i]==-999 then
                 mFrame:set(self.machines[i].posX,self.machines[i].posY,
                            self.machines[i].posZ,self.mFrame.default)
@@ -95,7 +95,7 @@ do
     
     function meta.frame:set(x,y,z,mState)
         local index=x+y*48+z*48*32
-        if mState==self.default then
+        if mState~=self.default then
             self.voxels[index]=tostring(mState)
             return true
         else
