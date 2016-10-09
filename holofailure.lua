@@ -6,7 +6,7 @@ local colours = {--HSV 30deg shifr iirc
 	{{  0, 16, 64},{  0, 32,128},{  0, 64,255}}, 
 	{{  0, 32, 64},{  0, 64,128},{  0,128,255}}} 
 
-function EZMEMECONCAT(tab)
+function EZCONCAT(tab)
     local txt=""
     for i=1,48 do
         for j=1,32 do
