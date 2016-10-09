@@ -28,7 +28,7 @@ local rPallet= 1
 while true do
 
     rPallet=rPallet+math.random(1,#colours-1)--"cyclic range" randomness with the same object exclusion
-    if rPallet>3 then rPallet=rPallet-#colours end
+    if rPallet>#colours then rPallet=rPallet-#colours end
 
     for i=1,3 do
         holo.setPaletteColor(i, colours[rPallet][i])
