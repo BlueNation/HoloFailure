@@ -13,8 +13,6 @@ meta={}--main meta table holding obj definitions
 
 meta.machineArray={}
 do
-    local removeCode=-999
-    
     function meta.machineArray:new()
         local o={}
         setmetatable(o,self)
@@ -41,7 +39,7 @@ do
                     self.machines[i].posY==mMachine.posY and --double indent when doing long conditionals plz
                     self.machines[i].posZ==mMachine.posZ then
                 --table.remove(self.machines,i)
-                self.machines[i]=removeCode
+                self.machines[i]=-999
                 return true
             end
         end
@@ -50,7 +48,7 @@ do
     
     function meta.machineArray:update(mFrame)
         for i=#self.machines,1 do
-            if self.machines[i]==removeCode then
+            if self.machines[i]==-999 then
                 mFrame:set(self.machines[i].posX,self.machines[i].posY,
                            self.machines[i].posZ,self.mFrame.default)
                 table.remove(self.machines,i)
@@ -111,7 +109,7 @@ do
     
     function meta.frame:render(cHolo)
         local str=""
-        for i=1,48*48*32 do
+        for i=1,48*32*48 do
             str=str..self.voxels[i]
         end
         cHolo.setRaw(str)
