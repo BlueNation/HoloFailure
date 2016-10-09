@@ -8,7 +8,7 @@ local colours = {--HSV 30deg shifr iirc
 	{{  0, 32, 64},{  0, 64,128},{  0,128,255}}} 
 
 function EZCONCAT(tab)
-    local txt--=""
+    local txt=""
     for i=1,xMax do
         for j=1,yMax do
             for k=1,zMax do
