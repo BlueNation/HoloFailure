@@ -25,7 +25,7 @@ holo.clear()
 --Define 3D frame
 
 local tFrame, mFrame = {}, {}
-mFrame.__index=function() return "\0" end--dont init the mFrame again... using the local keyword
+mFrame.__index=function() return tostring(math.random(0,3)) end--dont init the mFrame again... using the local keyword
 
 for i = 1,48 do
     tFrame[i]={}
