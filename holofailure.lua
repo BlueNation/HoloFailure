@@ -157,7 +157,7 @@ while true do
     end
 
     --Define 3D frame
-    local newmachine1=meta.machine:new(math.random(0,48)math.random(0,32),math.random(0,48),math.random(1,3))--creating new machine
+    local newmachine1=meta.machine:new(math.random(0,48),math.random(0,32),math.random(0,48),math.random(1,3))--creating new machine
     machineArray1:add(newmachine1)--adding to machine array
     machineArray1:update(frame1)--updating frame content
     frame1:render(holo)--
