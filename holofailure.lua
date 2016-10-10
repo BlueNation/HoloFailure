@@ -248,17 +248,22 @@ do --instanceof and obj helper functions
     end
 end
 do --translations of coordinates
+    --x 0 = bottom; 31 = top
+    --y 0 = back  ; 47 = front
+    --z 0 = left  ; 47 = right
+
+
     --x ,y ,z starts from 0
     --positions start from 1
 
     function func.xyzToPosition(x,y,z)
-        return 1+x+48*y+1536*z -- y is shifted by xMax, z is shifted by (xMax)*(yMax)
+        return 1+x+32*y+1536*z -- y is shifted by xMax, z is shifted by (xMax)*(yMax)
     end
     
     function func.positionToXYZ(pos)
         pos=pos-1
         local Z=math.floor(pos/1536)-- full multiples of 1536 OK
-        local X=math.fmod(pos,48)-- 0-47 modulus gets the beggining OK
+        local X=bit32.band(pos,0x20) -- 0-47 modulus gets the beggining OK
         return X,math.floor((pos-Z*1536)/48),Z --calculate Y as the remaining thing
     end
 end
@@ -337,7 +342,6 @@ while true do--main loop
     machineArray1:add(newmachine1)--adding to machine array
     newmachine1=meta.machine:newFromXYZ(0,0,31,math.random(1,3))--creating new machine
     machineArray1:add(newmachine1)--adding to machine array
-    
     
     machineArray1:update(frame1)--updating frame content
     frame1:sendVoxels(holo)--
