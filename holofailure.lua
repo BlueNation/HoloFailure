@@ -5,6 +5,7 @@ local term = require('term')
 local fs = require('filesystem')
 local component = require("component")
 local keyboard =  require("keyboard")
+local computer =  require("computer")
 
 local const={}--Constants, NEVER UNDER ANY CIRCUMSTANCES WRITE NEW VALUES TO THINGS DEFINED HERE!!! (if u need to, move them out of that table)
 do --resolution constants
