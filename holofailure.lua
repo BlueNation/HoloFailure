@@ -154,24 +154,24 @@ do --instance of functions
         end
     end
 end
-
+do --translations of coordinates
+    function func.xyzToPosition(x,y,z)
+        return x+48*y+1536*z -- y is shifted by xMax+1, z is shifted by (xMax+1)*(yMax+1)
+                             --yes our coord system starts from 0 !!!
+    end
+    
+    function func.positionToXYZ(pos)
+        local Z=math.floor(pos/1536)--48*32 full multiples of 1536 OK
+        local X=math.fmod(pos,48)--0-47 OK
+        return X,math.floor((pos-Z-X)/48),Z --calculate Y as the remaining thing
+    end
+end
 --INIT END
 
 local colours = {--HSV 30deg shifr iirc
     {0x000040,0x000080,0x0000ff},
     {0x0075a2,0x00cfc1,0x2af5ff}, 
     {0xe9ce2c,0xef8a17,0xc84c09}} 
-
-function EZCONCAT(tab)
-    local txt=""
-    for i=1,48 do
-        for j=1,32 do
-            for k=1,48 do
-                txt=txt..tab[i][j][k]
-    end end end
-    return txt
-end
-    
 
 --Load Basics
 
