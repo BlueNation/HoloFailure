@@ -1,44 +1,7 @@
 --Variables and functions
 --Layer 1 {OK, Fault, Crit} Layer 2 {hex,hex,hex}
-local func={}
-do
-    function func.isTable(tab)
-        return type(tab)=="table"
-    end
-
-    function func.iDup(tab)--iterable TABLE DUPLICATOR
-        local t={}
-        for k,v in ipairs(tab) do
-            t[k]=v
-        end
-        return t
-    end
-    
-    function func.pDup(tab)--non-iterable TABLE DUPLICATOR
-        local t={}
-        for k,v in pairs(tab) do
-            t[k]=v
-        end
-        return t
-    end
-    
-    function func.oDup(tab)--used to duplicate objects
-        local t=setmetatable({},getmetatable(tab))--reuse metatables
-        for k,v in pairs(tab) do
-            if func.isTable(v) then
-                t[k]=func.oDup(v)--function is dumb will halt the process on looped table
-            else
-                t[k]=v
-            end
-        end
-    return t
-    end
-end
-
-local meta={}--main meta table holding obj definitions
-
-meta.machineArray={}
-do
+local meta={}--main meta table holding obj definitions (meta tables and meta methods)
+do meta.machineArray={}     meta.machineArray.typeName="machineArray"
     function meta.machineArray:new()
         local o={}
         setmetatable(o,self)
@@ -84,10 +47,8 @@ do
             end
         end
     end
-end
-    
-meta.machine={}
-do
+end  
+do meta.machine={}          meta.machine.typeName="machine"
     function meta.machine:new(x,y,z,state)
         local o={--using o like u know object
             ["posX"]=x,
@@ -103,9 +64,7 @@ do
         self.state=mState
     end
 end
-
-meta.frame={}
-do
+do meta.frame={}            meta.frame.typeName="frame"
     function meta.frame:new(mDefault)
         local o={
             ["default"]=mDefault}
@@ -142,6 +101,61 @@ do
         return str
     end
 end
+
+local func={}
+do --table test/duplication
+    function func.isTable(tab)
+        return type(tab)=="table"
+    end
+
+    function func.iDup(tab)--iterable TABLE DUPLICATOR
+        local t={}
+        for k,v in ipairs(tab) do
+            t[k]=v
+        end
+        return t
+    end
+    
+    function func.pDup(tab)--non-iterable TABLE DUPLICATOR
+        local t={}
+        for k,v in pairs(tab) do
+            t[k]=v
+        end
+        return t
+    end
+    
+    function func.oDup(tab)--used to duplicate objects
+        local t=setmetatable({},getmetatable(tab))--reuse metatables
+        for k,v in pairs(tab) do
+            if func.isTable(v) then
+                t[k]=func.oDup(v)--function is dumb will halt the process on looped table
+            else
+                t[k]=v
+            end
+        end
+    return t
+    end
+end
+do --instance of functions 
+    function func.instanceOf(tab,mTab)--checks if the object (tab) is instance of the thing
+        return getmetatable(tab)==mTab
+        --func.instanceOf(someMachine,meta.machine) should give true
+    end
+    
+    function func.getTypeName(tab)--gets obj type name
+        return getmetatable(tab).typeName
+    end
+    
+    function func.getObjTypeFromName(str)
+        for k,v in pairs(meta) do
+            if v.typeName==str then 
+                return v
+            end
+        end
+    end
+end
+
+--INIT END
 
 local colours = {--HSV 30deg shifr iirc
     {0x000040,0x000080,0x0000ff},
