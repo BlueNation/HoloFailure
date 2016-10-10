@@ -89,13 +89,13 @@ do meta.frame={}            meta.frame.typeName="frame"
         setmetatable(o,self)
         self.__index=self
         self["voxels"]={}
-        self["pallete"]={}
+        self["Palette"]={}
         
         local tDefault={}--seting default value metatable
         tDefault.__index=function() return self.default end
         setmetatable(self.voxels,tDefault)
         
-        setmetatable(self.pallete,const.tDefaultPallete)--no custom default palletes
+        setmetatable(self.Palette,const.tDefaultPallete)--no custom default palletes
         return o
     end 
     
@@ -117,14 +117,14 @@ do meta.frame={}            meta.frame.typeName="frame"
     end
     
     function meta.frame:setPalette(tPallete)
-        self.pallete=func.iDup(tPallete)
-        return self.pallete
+        self.Palette=func.iDup(tPallete)
+        return self.Palette
     end
     
     function meta.frame:sendPallete(cHolo)
-        return cHolo.setPalleteColor(1,self.pallete[1]),
-               cHolo.setPalleteColor(2,self.pallete[2]),
-               cHolo.setPalleteColor(3,self.pallete[3])
+        return cHolo.setPaletteColor(1,self.Palette[1]),
+               cHolo.setPaletteColor(2,self.Palette[2]),
+               cHolo.setPaletteColor(3,self.Palette[3])
     end
     
     function meta.frame:sendVoxels(cHolo)
@@ -153,9 +153,9 @@ do meta.frame={}            meta.frame.typeName="frame"
     function meta.frame:toCompact()
         local char=string.char
         local str=char(self.default)..
-                  func.formatColor(self.pallete[1])..
-                  func.formatColor(self.pallete[2])..
-                  func.formatColor(self.pallete[3])
+                  func.formatColor(self.Palette[1])..
+                  func.formatColor(self.Palette[2])..
+                  func.formatColor(self.Palette[3])
         for i=1,const.resolutionMaxSize,4 do
             str=str..char(
                 self.voxels[i]*64+
@@ -172,9 +172,9 @@ do meta.frame={}            meta.frame.typeName="frame"
         tDefault.__index=function() return self.default end
         setmetatable(self.voxels,tDefault)
         
-        self.pallete[1]=func.readColor(str,2)
-        self.pallete[2]=func.readColor(str,5)
-        self.pallete[3]=func.readColor(str,8)
+        self.Palette[1]=func.readColor(str,2)
+        self.Palette[2]=func.readColor(str,5)
+        self.Palette[3]=func.readColor(str,8)
         
         self.voxels=func.tClean(self.voxels)
         local band=bit32.band
