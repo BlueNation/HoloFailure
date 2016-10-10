@@ -292,10 +292,10 @@ end
 --VARIABLES
 local holo = component.hologram
 
-local colours = {--HSV 30deg shifr iirc
-    {0x000040,0x000080,0x0000ff},
-    {0x0075a2,0x00cfc1,0x2af5ff}, 
-    {0xe9ce2c,0xef8a17,0xc84c09}} 
+local colours = {--Layer 1 Norm, Fail, Crit Layer 2 Primary, Secondary, Highlight
+    {0x090c9b,0x3d52d5,0x3d52d5},
+    {0x0b5563,0x58a4b0,0x2de1fc}, 
+    {0xff8811,0xf4d06f,0xefc700}} 
     
 local rPallet = 1
 
