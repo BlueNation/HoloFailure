@@ -38,7 +38,7 @@ do meta.machineArray={}     meta.machineArray.typeName="machineArray"
                 return false
             end
         end
-        table.insert(self.machines,mMachine)--yeah put the machine there
+        table.insert(self.machines,mMachine)--yeah put the machine there 
         return true
     end
     
@@ -116,6 +116,48 @@ do meta.frame={}            meta.frame.typeName="frame"
     function meta.frame:set(x,y,z,mState)--states are normal numbers
         return self:setPosition(func.xyzToPosition(x,y,z),mState)
     end
+    
+    function meta.frame:setLine(x,y,z,length,axis,state) -- length: 1 = bottom to top 2 = back to front 3 = left to right DIAGONALS NOT A THING YET TODO
+        local switch={}
+        switch[1]=function()--x 0 = bottom; 31 = top
+            if length > 0 then
+                for i = x, x+length do 
+                    self:set(i,y,z,state)
+                end
+            else
+                for i = x+length,x do 
+                    self:set(i,y,z,state)
+                end
+            end
+        end
+        switch[2]=function()--y 0 = back  ; 47 = front
+            if length > 0 then
+                for i = y, y+length do 
+                    self:set(x,i,z,state)
+                end
+            else
+                for i = y+length,y do 
+                    self:set(x,i,z,state)
+                end
+            end
+        end
+        switch[3]=function()--z 0 = left  ; 47 = right
+             if length > 0 then
+                for i = z, z+length do 
+                    self:set(x,y,i,state)
+                end
+            else
+                for i = z+length,z do 
+                    self:set(x,y,i,state)
+                end
+            end
+        end
+        return switch[axis]
+    end
+    
+    --function meta.frame:setCuboid(Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,state,tWalls)--tWalls = {top,bottom,left,right,front,back}
+    --    self:set(x,y,z,state)
+    --end
     
     function meta.frame:setPalette(tPallete)
         self.Palette=func.iDup(tPallete)
@@ -324,25 +366,10 @@ while true do--main loop
     --Define 3D frame
     local newmachine1=meta.machine:newFromXYZ(math.random(0,31),math.random(0,47),math.random(0,47),math.random(1,3))--creating new machine
     machineArray1:add(newmachine1)--adding to machine array
-    
-    newmachine1=meta.machine:newFromXYZ(30,0,0,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(31,0,0,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,29,0,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,30,0,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,31,0,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,0,28,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,0,29,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,0,30,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
-    newmachine1=meta.machine:newFromXYZ(0,0,31,math.random(1,3))--creating new machine
-    machineArray1:add(newmachine1)--adding to machine array
+    local l,a,c
+    frame1:setLine(15,23,23,l,a,0)
+    l,a,c=math.random(-10,10),math.random(1,3),math.random(1,3)
+    frame1:setLine(15,23,23,l,a,c)
     
     machineArray1:update(frame1)--updating frame content
     frame1:sendVoxels(holo)--
