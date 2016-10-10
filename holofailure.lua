@@ -55,10 +55,10 @@ do meta.machineArray={}     meta.machineArray.typeName="machineArray"
     function meta.machineArray:update(mFrame)
         for i=#self.machines,1,-1 do
             if self.machines[i].state==const.removeCode then
-                mFrame:set(self.machines[i].position,mFrame.default)
+                mFrame:setPosition(self.machines[i].pos,mFrame.default)
                 table.remove(self.machines,i)
             else
-                mFrame:set(self.machines[i].position,self.machines[i].state)
+                mFrame:setPosition(self.machines[i].pos,self.machines[i].state)
             end
         end
     end
@@ -75,7 +75,7 @@ do meta.machine={}          meta.machine.typeName="machine"
     end
     
     function meta.machine:newFromXYZ(x,y,z,state)
-        return this:new(func:xyzToPosition(x,y,z),state)
+        return this:new(func.xyzToPosition(x,y,z),state)
     end
     
     function meta.machine:set(mState)
@@ -92,7 +92,7 @@ do meta.frame={}            meta.frame.typeName="frame"
         self["Palette"]={}
         
         local tDefault={}--seting default value metatable
-        tDefault.__index=function() return self.default end
+        tDefault.__index=function() return mDefault end
         setmetatable(self.voxels,tDefault)
         
         setmetatable(self.Palette,const.tDefaultPallete)--no custom default palletes
@@ -113,11 +113,11 @@ do meta.frame={}            meta.frame.typeName="frame"
     end
     
     function meta.frame:set(x,y,z,mState)--states are normal numbers
-        return self:setPosition(func:xyzToPosition(x,y,z),mState)
+        return self:setPosition(func.xyzToPosition(x,y,z),mState)
     end
     
     function meta.frame:setPalette(tPallete)
-        self.Palette=func:iDup(tPallete)
+        self.Palette=func.iDup(tPallete)
         return self.Palette
     end
     
@@ -132,7 +132,7 @@ do meta.frame={}            meta.frame.typeName="frame"
     end
     
     function meta.frame:toString()
-        local str
+        local str=""
         local char=string.char
         for i=1,const.resolutionMaxSize do
             str=str..char(self.voxels[i])
@@ -141,7 +141,7 @@ do meta.frame={}            meta.frame.typeName="frame"
     end
     
     function meta.frame:setFromString(str)
-        self.voxels=func:tClean(self.voxels)--if table has metatable must be constructed like so, it forwards metatable to the object/table
+        self.voxels=func.tClean(self.voxels)--if table has metatable must be constructed like so, it forwards metatable to the object/table
         for i=1,#str do
             if str:byte(i)~=self.default then ---48 changes string byte to number if it is a single digit 
                 self.voxels[i]=str:byte(i)
@@ -153,9 +153,9 @@ do meta.frame={}            meta.frame.typeName="frame"
     function meta.frame:toCompact()
         local char=string.char
         local str=char(self.default)..
-                  func:formatColor(self.Palette[1])..
-                  func:formatColor(self.Palette[2])..
-                  func:formatColor(self.Palette[3])
+                  func.formatColor(self.Palette[1])..
+                  func.formatColor(self.Palette[2])..
+                  func.formatColor(self.Palette[3])
         for i=1,const.resolutionMaxSize,4 do
             str=str..char(
                 self.voxels[i]*64+
@@ -169,14 +169,14 @@ do meta.frame={}            meta.frame.typeName="frame"
     function meta.frame:setFromCompact(str)
         self.default=str:byte(1)
         local tDefault={}--seting default value metatable
-        tDefault.__index=function() return self.default end
+        tDefault.__index=function() return str:byte(1) end
         setmetatable(self.voxels,tDefault)
         
-        self.Palette[1]=func:readColor(str,2)
-        self.Palette[2]=func:readColor(str,5)
-        self.Palette[3]=func:readColor(str,8)
+        self.Palette[1]=func.readColor(str,2)
+        self.Palette[2]=func.readColor(str,5)
+        self.Palette[3]=func.readColor(str,8)
         
-        self.voxels=func:tClean(self.voxels)
+        self.voxels=func.tClean(self.voxels)
         local band=bit32.band
         local rshift=bit32.rshift
         local insert=table.insert
@@ -191,13 +191,13 @@ do meta.frame={}            meta.frame.typeName="frame"
     end
 end
 
-local func={}--functions
+func={}--functions
 do --table test/duplication
-    function func:isTable(tab)
+    function func.isTable(tab)
         return type(tab)=="table"
     end
 
-    function func:iDup(tab)--iterable TABLE DUPLICATOR
+    function func.iDup(tab)--iterable TABLE DUPLICATOR
         local t={}
         for k,v in ipairs(tab) do
             t[k]=v
@@ -205,7 +205,7 @@ do --table test/duplication
         return t
     end
     
-    function func:pDup(tab)--non-iterable TABLE DUPLICATOR
+    function func.pDup(tab)--non-iterable TABLE DUPLICATOR
         local t={}
         for k,v in pairs(tab) do
             t[k]=v
@@ -213,11 +213,11 @@ do --table test/duplication
         return t
     end
     
-    function func:oDup(object)--used to duplicate objects
+    function func.oDup(object)--used to duplicate objects
         local obj=setmetatable({},getmetatable(object))--reuse metatables
         for k,v in pairs(object) do
-            if func:isTable(v) then
-                obj[k]=func:oDup(v)--function is dumb will halt the process on looped table
+            if func.isTable(v) then
+                obj[k]=func.oDup(v)--function is dumb will halt the process on looped table
             else
                 obj[k]=v
             end
@@ -225,21 +225,21 @@ do --table test/duplication
         return obj--reference to new table
     end
     
-    function func:tClean(tab)--cleans the table keeping metatable
+    function func.tClean(tab)--cleans the table keeping metatable
         return setmetatable({},getmetatable(tab))--cheeky scrubness, result shuld be put into the variable
     end
 end
 do --instanceof and obj helper functions 
-    function func:instanceOf(tab,mTab)--checks if the object (tab) is instance of the thing
+    function func.instanceOf(tab,mTab)--checks if the object (tab) is instance of the thing
         return getmetatable(tab)==mTab
-        --func:instanceOf(someMachine,meta.machine) should give true
+        --func.instanceOf(someMachine,meta.machine) should give true
     end
     
-    function func:getTypeName(tab)--gets obj type name
+    function func.getTypeName(tab)--gets obj type name
         return getmetatable(tab).typeName
     end
     
-    function func:getObjTypeFromName(str)
+    function func.getObjTypeFromName(str)
         for k,v in pairs(meta) do
             if v.typeName==str then 
                 return v
@@ -251,11 +251,11 @@ do --translations of coordinates
     --x ,y ,z starts from 0
     --positions start from 1
 
-    function func:xyzToPosition(x,y,z)
+    function func.xyzToPosition(x,y,z)
         return 1+x+48*y+1536*z -- y is shifted by xMax, z is shifted by (xMax)*(yMax)
     end
     
-    function func:positionToXYZ(pos)
+    function func.positionToXYZ(pos)
         pos=pos-1
         local Z=math.floor(pos/1536)-- full multiples of 1536 OK
         local X=math.fmod(pos,48)-- 0-47 modulus gets the beggining OK
@@ -263,7 +263,7 @@ do --translations of coordinates
     end
 end
 do --other util funtions (single functions without groups)
-    function func:cyclicRandom(actual,minimum,maximum)--a random function for generating integer in range but different from previous one
+    function func.cyclicRandom(actual,minimum,maximum)--a random function for generating integer in range but different from previous one
         if minimum>maximum then minimum,maximum=maximum,minimum end
         local range=maximum-minimum
         local randomNumber=actual+math.random(1,range-1)
@@ -272,7 +272,7 @@ do --other util funtions (single functions without groups)
     end
 end
 do --color formating
-    function func:formatColor(colorNumber)--no alpha
+    function func.formatColor(colorNumber)--no alpha
         local band=bit32.band
         local rshift=bit32.rshift
         local char=string.char
@@ -282,14 +282,12 @@ do --color formating
         return char(r)..char(g)..char(b)
     end
     
-    function func:readColor(str,startPos)
+    function func.readColor(str,startPos)
         return str:byte(startPos)*65536+
                str:byte(startPos+1)*256+
                str:byte(startPos+2)
     end
 end
-setmetatable(func,func)
-func.__index=func
 
 --VARIABLES
 local holo = component.hologram
@@ -312,7 +310,7 @@ holo.setScale(.3)
 
 
 while true do--main loop
-    rPallet=func:cyclicRandom(rPallet,1,3)
+    rPallet=func.cyclicRandom(rPallet,1,3)
     
     frame1:setPalette(colours[rPallet])
     frame1:sendPallete(holo)
