@@ -75,7 +75,7 @@ do meta.machine={}          meta.machine.typeName="machine"
     end
     
     function meta.machine:newFromXYZ(x,y,z,state)
-        return this:new(func.xyzToPosition(x,y,z),state)
+        return self:new(func.xyzToPosition(x,y,z),state)
     end
     
     function meta.machine:set(mState)
@@ -105,7 +105,7 @@ do meta.frame={}            meta.frame.typeName="frame"
             return true
         else
             if self.voxels[index] then
-                table.remove(self.voxels,index)
+                self.voxels[index]=nil
                 return true
             end
             return false 
@@ -316,8 +316,29 @@ while true do--main loop
     frame1:sendPallete(holo)
 
     --Define 3D frame
-    local newmachine1=meta.machine:new(math.random(0,47),math.random(0,31),math.random(0,47),math.random(1,3))--creating new machine
+    local newmachine1=meta.machine:newFromXYZ(math.random(0,47),math.random(0,31),math.random(0,47),math.random(1,3))--creating new machine
     machineArray1:add(newmachine1)--adding to machine array
+    
+    newmachine1=meta.machine:newFromXYZ(30,0,0,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(31,0,0,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,29,0,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,30,0,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,31,0,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,0,28,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,0,29,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,0,30,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    newmachine1=meta.machine:newFromXYZ(0,0,31,math.random(1,3))--creating new machine
+    machineArray1:add(newmachine1)--adding to machine array
+    
+    
     machineArray1:update(frame1)--updating frame content
     frame1:sendVoxels(holo)--
     
