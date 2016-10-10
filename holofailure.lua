@@ -1,15 +1,33 @@
 --Variables and functions
 --Layer 1 {OK, Fault, Crit} Layer 2 {hex,hex,hex}
-
-local function iDup(tab)--iterable TABLE DUPLICATOR
-    local t={}
-    for k,v in ipairs(tab) do
-        t[k]=v
+local func={}
+do
+    function func.isTable(tab)
+        return type(tab)=="table"
     end
+
+    function func.iDup(tab)--iterable TABLE DUPLICATOR
+        local t={}
+        for k,v in ipairs(tab) do
+            t[k]=v
+        end
+        return t
+    end
+    
+    function func.oDup(tab)--used to duplicate objects
+        local t=setmetatable({},getmetatable(tab))--reuse metatables
+        for k,v in pairs(tab) do
+            if func.isTable(v) then
+                t[k]=func.oDup(v)--function is dumb will halt the process on looped table
+            else
+                t[k]=v
+            end
+        end
     return t
+    end
 end
 
-meta={}--main meta table holding obj definitions
+local meta={}--main meta table holding obj definitions
 
 meta.machineArray={}
 do
