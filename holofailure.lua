@@ -6,20 +6,6 @@ local fs = require('filesystem')
 local component = require("component")
 local keyboard =  require("keyboard")
 
---VARIABLES
-local holo = component.hologram
-
-local colours = {--HSV 30deg shifr iirc
-    {0x000040,0x000080,0x0000ff},
-    {0x0075a2,0x00cfc1,0x2af5ff}, 
-    {0xe9ce2c,0xef8a17,0xc84c09}} 
-    
-local rPallet = 1
-
---Objects
-local machineArray1=meta.machineArray:new()
-local frame1=meta.frame:new(0)
-
 local const={}--Constants, NEVER UNDER ANY CIRCUMSTANCES WRITE NEW VALUES TO THINGS DEFINED HERE!!! (if u need to, move them out of that table)
 do --resolution constants
     const.removeCode=-999
@@ -302,6 +288,20 @@ do --color formating
                str:byte(startPos+2)
     end
 end
+
+--VARIABLES
+local holo = component.hologram
+
+local colours = {--HSV 30deg shifr iirc
+    {0x000040,0x000080,0x0000ff},
+    {0x0075a2,0x00cfc1,0x2af5ff}, 
+    {0xe9ce2c,0xef8a17,0xc84c09}} 
+    
+local rPallet = 1
+
+--Objects
+local machineArray1=meta.machineArray:new()
+local frame1=meta.frame:new(0)
 
 --do once
 
