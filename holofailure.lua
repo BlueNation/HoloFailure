@@ -322,7 +322,7 @@ while true do--main loop
     frame1:sendPallete(holo)
 
     --Define 3D frame
-    local newmachine1=meta.machine:newFromXYZ(math.random(0,47),math.random(0,31),math.random(0,47),math.random(1,3))--creating new machine
+    local newmachine1=meta.machine:newFromXYZ(math.random(0,31),math.random(0,47),math.random(0,47),math.random(1,3))--creating new machine
     machineArray1:add(newmachine1)--adding to machine array
     
     newmachine1=meta.machine:newFromXYZ(30,0,0,math.random(1,3))--creating new machine
