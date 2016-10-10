@@ -14,6 +14,14 @@ do
         return t
     end
     
+    function func.pDup(tab)--non-iterable TABLE DUPLICATOR
+        local t={}
+        for k,v in pairs(tab) do
+            t[k]=v
+        end
+        return t
+    end
+    
     function func.oDup(tab)--used to duplicate objects
         local t=setmetatable({},getmetatable(tab))--reuse metatables
         for k,v in pairs(tab) do
