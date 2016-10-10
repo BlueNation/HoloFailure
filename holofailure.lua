@@ -6,6 +6,35 @@ local fs = require('filesystem')
 local component = require("component")
 local keyboard =  require("keyboard")
 
+--VARIABLES
+local holo = component.hologram
+
+local colours = {--HSV 30deg shifr iirc
+    {0x000040,0x000080,0x0000ff},
+    {0x0075a2,0x00cfc1,0x2af5ff}, 
+    {0xe9ce2c,0xef8a17,0xc84c09}} 
+    
+local rPallet = 1
+
+--Objects
+local machineArray1=meta.machineArray:new()
+local frame1=meta.frame:new(0)
+
+local const={}--Constants, NEVER UNDER ANY CIRCUMSTANCES WRITE NEW VALUES TO THINGS DEFINED HERE!!! (if u need to, move them out of that table)
+do --resolution constants
+    const.removeCode=-999
+
+    const.resolutionMax={48,32,48}-- x,y,z max size
+    
+    const.resolutionMaxSize=73728 -- 48*48*32
+    
+    const.tDefaultPallete={}
+    const.tDefaultPallete.__index=const.tDefaultPallete
+    const.tDefaultPallete[1]=0x00ffff--C - cos i hate red
+    const.tDefaultPallete[2]=0x00ff00--G
+    const.tDefaultPallete[3]=0x0000ff--B
+end
+
 local meta={}--main meta table holding obj definitions (meta tables and meta methods)
 do meta.machineArray={}     meta.machineArray.typeName="machineArray"
     function meta.machineArray:new()
@@ -273,35 +302,6 @@ do --color formating
                str:byte(startPos+2)
     end
 end
-
-local const={}--Constants, NEVER UNDER ANY CIRCUMSTANCES WRITE NEW VALUES TO THINGS DEFINED HERE!!! (if u need to, move them out of that table)
-do --resolution constants
-    const.removeCode=-999
-
-    const.resolutionMax={48,32,48}-- x,y,z max size
-    
-    const.resolutionMaxSize=73728 -- 48*48*32
-    
-    const.tDefaultPallete={}
-    const.tDefaultPallete.__index=const.tDefaultPallete
-    const.tDefaultPallete[1]=0x00ffff--C - cos i hate red
-    const.tDefaultPallete[2]=0x00ff00--G
-    const.tDefaultPallete[3]=0x0000ff--B
-end
-
---VARIABLES
-local holo = component.hologram
-
-local colours = {--HSV 30deg shifr iirc
-    {0x000040,0x000080,0x0000ff},
-    {0x0075a2,0x00cfc1,0x2af5ff}, 
-    {0xe9ce2c,0xef8a17,0xc84c09}} 
-    
-local rPallet = 1
-
---Objects
-local machineArray1=meta.machineArray:new()
-local frame1=meta.frame:new(0)
 
 --do once
 
