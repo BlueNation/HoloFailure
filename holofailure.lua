@@ -11,7 +11,7 @@ local const={}--Constants, NEVER UNDER ANY CIRCUMSTANCES WRITE NEW VALUES TO THI
 do --resolution constants
     const.removeCode=-999
 
-    const.resolutionMax={48,32,48}-- x,y,z max size
+    const.resolutionMax={32,48,48}-- x,y,z max size
     
     const.resolutionMaxSize=73728 -- 48*48*32
     
