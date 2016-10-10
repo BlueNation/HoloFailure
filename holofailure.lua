@@ -98,11 +98,12 @@ do meta.frame={}            meta.frame.typeName="frame"
     end
     
     function meta.frame:set(x,y,z,mState)--states are normal numbers
-        return this:setPosition(func.xyzToPosition(x,y,z),mState)
+        return self:setPosition(func.xyzToPosition(x,y,z),mState)
     end
     
     function meta.frame:setPalette(tPallete)
-        return self.pallete=func.iDup(tPallete)
+        self.pallete=func.iDup(tPallete)
+        return self.pallete
     end
     
     function meta.frame:sendPallete(cHolo)
