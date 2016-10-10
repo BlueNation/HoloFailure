@@ -15,10 +15,10 @@ do --resolution constants
     const.resolutionMaxSize=73728 -- 48*48*32
     
     const.tDefaultPallete={}
-    const.tDefaultPallete.__index=const.tDefaultPallete
     const.tDefaultPallete[1]=0x00ffff--C - cos i hate red
     const.tDefaultPallete[2]=0x00ff00--G
     const.tDefaultPallete[3]=0x0000ff--B
+    const.tDefaultPallete.__index=const.tDefaultPallete
 end
 
 local meta={}--main meta table holding obj definitions (meta tables and meta methods)
