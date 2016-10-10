@@ -288,6 +288,8 @@ do --color formating
                str:byte(startPos+2)
     end
 end
+setmetatable(func,func)
+func.__index=func
 
 --VARIABLES
 local holo = component.hologram
