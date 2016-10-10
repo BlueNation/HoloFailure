@@ -345,6 +345,6 @@ while true do--main loop
     
     machineArray1:update(frame1)--updating frame content
     frame1:sendVoxels(holo)--
-    
+    print(tostring(math.floor((computer.totalMemory()-computer.freeMemory()-235738)/1024)).."k RAM Used") --Shows used Ram
     os.sleep(5)
 end
